@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+import pandas as pd
 from link import Link
 
 BACKEND_URL = 'http://localhost:5000'
@@ -38,7 +39,10 @@ if option == 'Shorten URL':
 
 elif option == 'View Shortened Links':
     links = get_links()
-    st.write('Shortened Links:')
-    for link in links:
-        st.write(f'- [{link.shortened_link}]({link.original_link})')
+    if links:
+        df = pd.DataFrame([[link.shortened_link, link.original_link] for link in links], columns=['Shortened Link', 'Original Link'])
+        st.write('Shortened Links:')
+        st.dataframe(df)
+    else:
+        st.write('No shortened links available.')
 
