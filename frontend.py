@@ -33,16 +33,17 @@ if option == 'Shorten URL':
     if st.button('Shorten'):
         if url:
             link = shorten_url(url)
-            st.success(f'Shortened URL: {BACKEND_URL}/{link.shortened_link}')
+            shortened_link = f'{BACKEND_URL}/{link.shortened_link}'
+            st.success(f'Shortened URL: [{shortened_link}]({link.original_link})')
         else:
             st.warning('Please enter a URL.')
 
 elif option == 'View Shortened Links':
     links = get_links()
     if links:
-        df = pd.DataFrame([[link.shortened_link, link.original_link] for link in links], columns=['Shortened Link', 'Original Link'])
+        df = pd.DataFrame([[f'<a href="{BACKEND_URL}/{link.shortened_link}">{BACKEND_URL}/{link.shortened_link}</a>', link.original_link] for link in links], columns=['Shortened Link', 'Original Link'])
         st.write('Shortened Links:')
-        st.dataframe(df)
+        st.write(df.to_html(escape=False), unsafe_allow_html=True)
     else:
         st.write('No shortened links available.')
 
