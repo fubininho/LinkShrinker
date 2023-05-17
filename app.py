@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
 import random
 import string
-from link import Link
+from library import Library
 
 app = Flask(__name__)
-links = {}
+library = Library()
 
 
 def generate_short_link():
@@ -16,14 +16,13 @@ def generate_short_link():
 def shorten_link():
     original_url = request.json['url']
     short_link = generate_short_link()
-    link = Link(original_url, short_link)
-    links[short_link] = link
+    library.insert(original_url, short_link)
     return jsonify({'short_link': short_link})
 
 
 @app.route('/links', methods=['GET'])
 def get_links():
-    links_data = {short_link: link.original_link for short_link, link in links.items()}
+    links_data = {link.shortened_link: link.original_link for link in library.list()}
     return jsonify(links_data)
 
 
