@@ -14,3 +14,10 @@ class Library:
                 return link
         return None
 
+    def delete_link(self, shortened_link):
+        for link in self.links:
+            if link.shortened_link == shortened_link:
+                self.links.remove(link)
+                return True
+        return False
+

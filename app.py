@@ -27,6 +27,18 @@ def get_links():
     return jsonify(links_data)
 
 
+@app.route('/links', methods=['DELETE'])
+def delete_link():
+    shortened_link = request.args.get('shortened_link')
+    if shortened_link:
+        if library.delete_link(shortened_link):
+            return jsonify({'message': f'Link {shortened_link} deleted.'}), 200
+        else:
+            return jsonify({'message': f'Link {shortened_link} not found.'}), 404
+    else:
+        return jsonify({'message': 'Missing shortened_link parameter.'}), 400
+
+
 if __name__ == '__main__':
     app.run()
 
