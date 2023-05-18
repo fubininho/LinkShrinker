@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import random
 import string
 from library import Library
+from link import Link
 
 app = Flask(__name__)
 library = Library()
@@ -16,7 +17,7 @@ def generate_short_link():
 def shorten_link():
     original_url = request.json['url']
     short_link = generate_short_link()
-    library.insert(original_url, short_link)
+    library.insert(Link(original_url, short_link))
     return jsonify({'short_link': short_link})
 
 

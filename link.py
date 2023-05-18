@@ -3,3 +3,6 @@ class Link:
         self.original_link = original_link
         self.shortened_link = shortened_link
 
+    def get_original_link(self):
+        return self.original_link
+
