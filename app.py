@@ -39,6 +39,18 @@ def delete_link():
         return jsonify({'message': 'Missing shortened_link parameter.'}), 400
 
 
+@app.route('/links', methods=["POST"])
+def edit_link*(:
+shortened_link = request.args.get('shortened_link')
+    if shortened_link:
+        old_link = library.find_link(shortened_link)
+        library.delete_link(shortened_link)
+        old_link.shortened_link = generate_short_link() 
+        library.insert(old_link)
+        return jsonify({'message': f'Link changed to {old_link.shortened_link}.'}), 201
+    else:
+        return jsonify({'message': 'Missing shortened_link parameter.'}), 400
+
 if __name__ == '__main__':
     app.run()
 
