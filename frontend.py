@@ -34,13 +34,11 @@ def render_shorten_input():
             st.warning('Please enter a URL.')
 
 def delete_link(shortened_link):
-    print(shortened_link)
     requests.delete(f'{BACKEND_URL}/links?shortened_link={shortened_link}')
 
 
 def render_link_table():
     links = get_links()
-    print(links)
     if links:
         data = []
         col1, col2, col3 = st.columns(3)
@@ -63,10 +61,6 @@ def render_link_table():
 
     
 
-    
-
-    
-       
 
 
 st.title('Link Shortener')
