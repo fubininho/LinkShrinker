@@ -3,9 +3,11 @@ import random
 import string
 from library import Library
 from link import Link
+from Logs import LogsLibrary
 
 app = Flask(__name__)
 library = Library()
+logs_library = LogsLibrary()
 
 
 def generate_short_link():
@@ -50,6 +52,18 @@ def edit_link():
         return jsonify({'message': f'Link changed to {old_link.shortened_link}.'}), 201
     else:
         return jsonify({'message': 'Missing shortened_link parameter.'}), 400
+
+
+@app.route('/stats', methods=['GET'])
+def get_stats():
+    number_of_clicks = request.args.get('number_of_clicks')
+    if number_of_clicks:
+        return jsonify(logs_library.get_total_clicks_as_pandas().to_dict()), 200
+    elif not number_of_clicks:
+        return jsonify(logs_library.get_clicks_as_pandas().to_dict()), 200
+    else:
+        return jsonify({'message': 'Missing number_of_clicks parameter.'}), 400
+
 
 if __name__ == '__main__':
     app.run()
