@@ -40,7 +40,7 @@ def delete_link():
 
 
 @app.route('/links', methods=["POST"])
-def edit_link*(:
+def edit_link():
 shortened_link = request.args.get('shortened_link')
     if shortened_link:
         old_link = library.find_link(shortened_link)
