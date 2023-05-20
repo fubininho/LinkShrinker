@@ -35,6 +35,7 @@ def get_item(short_id):
 @app.route('/links', methods=['GET'])
 def get_links():
     links_data = {link.shortened_link: link.original_link for link in library.list()}
+    print(links_data)
     return jsonify(links_data)
 
 
