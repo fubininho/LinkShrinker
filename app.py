@@ -29,6 +29,7 @@ def get_item(short_id):
     link = library.find_link(short_id)
     if link:
         print("🔥", link.original_link)
+        logs_library.add_click(link)
         return redirect(f'http://{link.original_link}')
     else:
         return jsonify({'message': f'Link {short_id} not found.'}), 404
