@@ -35,7 +35,7 @@ if option == 'Shorten URL':
         if url:
             link = shorten_url(url)
             shortened_link = f'{BACKEND_URL}/{link.shortened_link}'
-            st.success(f'Shortened URL: [{shortened_link}]({link.original_link})')
+            st.success(f'Shortened URL: [{shortened_link}](http://{link.original_link})')
         else:
             st.warning('Please enter a URL.')
 
