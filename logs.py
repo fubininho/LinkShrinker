@@ -1,10 +1,10 @@
-import datatime
+from datetime import datetime
 import pandas as pd
 
 class Log:
     def __init__(self, link):
         self.link = link
-        self.time = datetime.datetime.now()
+        self.time = datetime.now()
 
 
 class LogsLibrary:
@@ -15,13 +15,17 @@ class LogsLibrary:
         self.logs.append(Log(link))
 
     def get_clicks_as_pandas(self):
+        if len(self.logs) == 0:
+            return pd.DataFrame(columns=['time', 'shortened_link'])
         return pd.DataFrame([{
             'time': log.time,
-            'shorten_link': log.link.shorten_link
+            'shortened_link': log.link.shortened_link
         } for log in self.logs])
 
     def get_total_clicks_as_pandas(self):
-        return self.get_clicks_as_pandas().groupby('shorten_link').count().rename(
+        if len(self.logs) == 0:
+            return pd.DataFrame(columns=['shortened_link', 'total_clicks'])
+        return self.get_clicks_as_pandas().groupby('shortened_link').count().rename(
             columns={'time': 'total_clicks'}
         )
 

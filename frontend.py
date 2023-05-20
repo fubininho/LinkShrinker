@@ -27,7 +27,7 @@ def get_links():
 
 st.title('Link Shortener')
 
-option = st.selectbox('Choose an action:', ('Shorten URL', 'View Shortened Links'))
+option = st.selectbox('Choose an action:', ('Shorten URL', 'View Shortened Links', 'View Statistics', 'View Logs'))
 
 if option == 'Shorten URL':
     url = st.text_input('Enter the URL to shorten:')
@@ -63,3 +63,15 @@ elif option == 'View Shortened Links':
     else:
         st.write('No shortened links available.')
 
+elif option == "View Statistics":
+    response = requests.get(f'{BACKEND_URL}/stats?number_of_clicks=true')
+    data = response.json()
+    st.write('Number of Clicks:')
+    st.write(pd.DataFrame(data))
+
+
+elif option == "View Logs":
+    response = requests.get(f'{BACKEND_URL}/stats?number_of_clicks=false')
+    data = response.json()
+    st.write('Logs:')
+    st.write(pd.DataFrame(data))
