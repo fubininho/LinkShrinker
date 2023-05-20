@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 import random
 import string
 from library import Library
@@ -16,9 +16,20 @@ def generate_short_link():
 @app.route('/shorten', methods=['POST'])
 def shorten_link():
     original_url = request.json['url']
+    url_without_http = original_url.replace('http://', '').replace('https://', '')
     short_link = generate_short_link()
-    library.insert(Link(original_url, short_link))
+    library.insert(Link(url_without_http, short_link))
     return jsonify({'short_link': short_link})
+
+
+@app.route('/<string:short_id>', methods=['GET'])
+def get_item(short_id):
+    link = library.find_link(short_id)
+    if link:
+        print("🔥", link.original_link)
+        return redirect(f'http://{link.original_link}')
+    else:
+        return jsonify({'message': f'Link {short_id} not found.'}), 404
 
 
 @app.route('/links', methods=['GET'])
@@ -52,5 +63,6 @@ def edit_link():
         return jsonify({'message': 'Missing shortened_link parameter.'}), 400
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, use_reloader=True)
+
 
