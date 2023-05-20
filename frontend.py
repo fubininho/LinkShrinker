@@ -4,7 +4,7 @@ import pandas as pd
 from link import Link
 import webbrowser
 
-BACKEND_URL = 'http://localhost:5000'
+BACKEND_URL = 'http://127.0.0.1:5000'
 
 
 def shorten_url(url):
@@ -35,7 +35,7 @@ if option == 'Shorten URL':
         if url:
             link = shorten_url(url)
             shortened_link = f'{BACKEND_URL}/{link.shortened_link}'
-            st.success(f'Shortened URL: [{shortened_link}]({link.original_link})')
+            st.success(f'Shortened URL: [{shortened_link}](http://{link.original_link})')
         else:
             st.warning('Please enter a URL.')
 
